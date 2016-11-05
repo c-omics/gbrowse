@@ -1,0 +1,45 @@
+before_script:
+  # Run ssh-agent (inside the build environment)
+  - eval $(ssh-agent -s)
+  # annoyingly, there are a bunch of windows return characters in this env var (a gitlab bug)
+  # extra annoyingly, a tmp file is needed - can't get a pipe to perl to work inside the ssh-add line
+  - echo "$gitlab_to_github_deploy_key" | perl -pi -e 's/\r\n/\n/g' > ./deploykey
+  # following line set up in the way it is to avoid an extra chmod step
+  - ssh-add <(cat ./deploykey )
+  # quick, get rid of it!
+  - rm -f ./deploykey
+  # test docker is running
+  - docker info
+  # log into the docker registry
+  -  docker login -e unknown -u gitlab-ci-token -p $CI_BUILD_TOKEN bigr.bios.cf.ac.uk:4567
+  
+variables:
+  PROJECT_NAME: "$CI_PROJECT_NAME"
+  
+types:
+  - build
+  - deploy
+
+build_app:
+  only:
+   - master
+   - trigger
+  type: build
+  script: 
+   - make build
+
+deploy_app:
+  only:
+   - master
+   - trigger
+  type: deploy
+  script:
+   - docker push bigr.bios.cf.ac.uk:4567/$CI_PROJECT_PATH
+   - git clone git@bigr.bios.cf.ac.uk:comics/$PROJECT_NAME && 
+     cd $PROJECT_NAME && 
+     git remote rm origin &&
+     git remote add origin git@github.com:c-omics/$PROJECT_NAME && 
+     git push -u origin master && 
+     cd .. && 
+     rm -rf $PROJECT_NAME
+
