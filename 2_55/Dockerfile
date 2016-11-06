@@ -27,6 +27,7 @@ RUN yum install -y \
            graphviz \
            graphviz-devel \
            httpd \
+           inkscape \
            libxml2 \
            libxml2-devel \
            make \
@@ -111,7 +112,10 @@ RUN cd / ; \
     perl Build.PL ; \
     yes '' | ./Build test ; \
     yes 'n' | ./Build install ; \
-    chown -R apache:apache /var/lib/gbrowse2
+    chown -R apache:apache /var/lib/gbrowse2 ; \
+    cd /usr/share/httpd ; \
+    mkdir -p .config/inkscape .gnome2 ; \
+    chown apache:apache .config/inkscape .gnome2
 
 COPY gbrowse_entrypoint.sh /usr/local/bin/gbrowse_entrypoint.sh
 ENTRYPOINT ["/usr/local/bin/gbrowse_entrypoint.sh"]
