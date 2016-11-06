@@ -117,6 +117,7 @@ RUN cd / ; \
     mkdir -p .config/inkscape .gnome2 ; \
     chown apache:apache .config/inkscape .gnome2
 
+COPY gbrowse2.conf /etc/httpd/conf.d/gbrowse2.conf
 COPY gbrowse_entrypoint.sh /usr/local/bin/gbrowse_entrypoint.sh
 ENTRYPOINT ["/usr/local/bin/gbrowse_entrypoint.sh"]
 
