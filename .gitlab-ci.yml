@@ -27,6 +27,7 @@ build_app:
   type: build
   script: 
    - make build
+   - make clean
 
 deploy_app:
   only:
@@ -34,7 +35,9 @@ deploy_app:
    - trigger
   type: deploy
   script:
+   - make build
    - docker push bigr.bios.cf.ac.uk:4567/$CI_PROJECT_PATH
+   - make clean
    - git clone git@bigr.bios.cf.ac.uk:comics/$PROJECT_NAME && 
      cd $PROJECT_NAME && 
      git remote rm origin &&
