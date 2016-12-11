@@ -11,9 +11,8 @@ MAINTAINER Ian Merrick <MerrickI@Cardiff.ac.uk>
 
 RUN yum install -y httpd \
                    mod_fcgid \
-                   fcgi-perl; \
+                   fcgi-perl ; \
     yum clean all
-#    systemctl enable httpd.service
 
 RUN yum install -y \
            bzip2 \
@@ -57,8 +56,9 @@ RUN yum install -y \
            perl-Test-Most \
            unzip \
            wget \
-           zlib-devel 
-#           perl-Bio-Graphics 
+           zlib-devel ; \
+    yum clean all
+    
 RUN cpanm SVG \
           CGI \
           DBI \
