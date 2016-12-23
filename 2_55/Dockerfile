@@ -101,6 +101,7 @@ RUN cd / ; \
     git clone https://github.com/bioperl/bioperl-live.git ; \
         cd bioperl-live ; \
         git checkout tags/bioperl-release-1-6-901 ; \
+        rm -rf .git ; \
         yes '' | perl Build.PL ; \
        ./Build test ; \
        ./Build install 
@@ -109,6 +110,7 @@ RUN cd / ; \
     git clone https://github.com/GMOD/GBrowse ; \
     cd GBrowse ; \
     git checkout tags/release-2_55 ; \
+    rm -rf .git ; \
     perl Build.PL ; \
     yes '' | ./Build test ; \
     yes 'n' | ./Build install ; \

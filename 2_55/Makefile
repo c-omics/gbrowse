@@ -9,12 +9,11 @@ IMAGE = $(REGISTRY)/$(NAME)
 all: build
 
 build:
+	docker pull comics/centos
 ifeq ($(LATEST), $(TAG))
 	docker build -t $(IMAGE):$(TAG) -t $(IMAGE):latest .
-#	docker build --no-cache --rm -t $(IMAGE):$(TAG) -t $(IMAGE):latest .
 else
 	docker build -t $(IMAGE):$(TAG) .
-#	docker build --no-cache --rm -t $(IMAGE):$(TAG) .
 endif
 
 # docker login required for push
