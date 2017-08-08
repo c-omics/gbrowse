@@ -11,7 +11,7 @@ before_script:
   # test docker is running
   - docker info
   # log into the docker registry
-  -  docker login -e unknown -u gitlab-ci-token -p $CI_BUILD_TOKEN bigr.bios.cf.ac.uk:4567
+  -  docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN bigr.bios.cf.ac.uk:4567
   
 variables:
   PROJECT_NAME: "$CI_PROJECT_NAME"
